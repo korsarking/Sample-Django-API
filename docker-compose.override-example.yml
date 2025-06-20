@@ -23,6 +23,7 @@ services:
       DYNACONF_DATABASES__default__HOST: postgres
       DYNACONF_DATABASES__default__PORT: 5432
       DYNACONF_DEBUG: True
+      DYNACONF_SECRET_KEY: django
     volumes:
       - ./src:/usr/src/app/src:ro
     develop:
