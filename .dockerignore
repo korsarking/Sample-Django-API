@@ -1,0 +1,14 @@
+# Byte-compiled / optimized / DLL files
+src/**/__pycache__/
+src/**/*.py[cod]
+src/**/*$py.class
+
+# Django stuff:
+src/**/*.log
+src/**/local_settings.py
+src/**/db.sqlite3
+src/**/db.sqlite3-journal
+
+# Celery stuff
+src/**/celerybeat-schedule
+src/**/celerybeat.pid
