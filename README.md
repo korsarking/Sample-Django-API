@@ -56,7 +56,7 @@ Follow these steps to set up the project for development:
 
    Build and start the containers. The application will be accessible at `http://localhost:8000`:
    ```bash
-   docker-compose up --build
+   docker-compose up --build --detach
    ```
 
 7. **Start watch mode**
