@@ -23,6 +23,8 @@ services:
       DYNACONF_DATABASES__default__HOST: postgres
       DYNACONF_DATABASES__default__PORT: 5432
       DYNACONF_DEBUG: True
+    volumes:
+      - ./src:/usr/src/app/src:ro
 
   nginx:
     ports:
