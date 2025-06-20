@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "sample-django-api"
+version = "0.1.0"
+description = "Starter Django project for backend developer test task – extend the API based on provided requirements."
+authors = ["Artiom Cozlovici <kozakovi4@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
