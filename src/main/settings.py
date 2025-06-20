@@ -26,6 +26,7 @@ SECRET_KEY = ''
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+# Allowed hosts configuration should be set in environment variable or dynaconf settings.
 ALLOWED_HOSTS = []
 
 
