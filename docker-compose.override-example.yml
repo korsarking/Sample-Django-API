@@ -22,6 +22,7 @@ services:
       DYNACONF_DATABASES__default__PASSWORD: $DB_PASSWORD
       DYNACONF_DATABASES__default__HOST: postgres
       DYNACONF_DATABASES__default__PORT: 5432
+      DYNACONF_DEBUG: True
 
   nginx:
     ports:
