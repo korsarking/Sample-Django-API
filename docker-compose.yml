@@ -1,0 +1,16 @@
+services:
+  django:
+    build:
+      context: ./
+
+  nginx:
+    image: wodby/nginx:1.28-5.43.0
+    depends_on:
+      - django
+    environment:
+      NGINX_STATIC_OPEN_FILE_CACHE: "off"
+      NGINX_ERROR_LOG_LEVEL: debug
+      NGINX_VHOST_PRESET: django
+      NGINX_BACKEND_HOST: django
+    volumes:
+      - ./src/:/usr/src/app/src:cached
