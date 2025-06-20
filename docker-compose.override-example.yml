@@ -1,0 +1,38 @@
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: wodby/postgres:17-1.36.0
+    stop_grace_period: 30s
+    environment:
+      POSTGRES_PASSWORD: $DB_PASSWORD
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  django:
+    depends_on:
+      - postgres
+    environment:
+      DYNACONF_DATABASES__default__ENGINE: django.db.backends.postgresql
+      DYNACONF_DATABASES__default__NAME: $DB_NAME
+      DYNACONF_DATABASES__default__USER: $DB_USER
+      DYNACONF_DATABASES__default__PASSWORD: $DB_PASSWORD
+      DYNACONF_DATABASES__default__HOST: postgres
+      DYNACONF_DATABASES__default__PORT: 5432
+      DYNACONF_DEBUG: True
+      DYNACONF_SECRET_KEY: django
+    volumes:
+      - ./src:/usr/src/app/src:ro
+    develop:
+      watch:
+        - action: rebuild
+          path: pyproject.toml
+        - action: rebuild
+          path: poetry.lock
+
+  nginx:
+    ports:
+      - "8000:80"
