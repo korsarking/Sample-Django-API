@@ -25,6 +25,12 @@ services:
       DYNACONF_DEBUG: True
     volumes:
       - ./src:/usr/src/app/src:ro
+    develop:
+      watch:
+        - action: rebuild
+          path: pyproject.toml
+        - action: rebuild
+          path: poetry.lock
 
   nginx:
     ports:
