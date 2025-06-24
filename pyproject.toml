@@ -5,6 +5,7 @@ description = "Starter Django project for backend developer test task – extend
 authors = ["Artiom Cozlovici <kozakovi4@outlook.com>"]
 license = "MIT"
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -13,6 +14,7 @@ djangorestframework = "^3.16.0"
 gunicorn = "^23.0.0"
 dynaconf = "^3.2.11"
 psycopg = {extras = ["binary"], version = "^3.2.9"}
+environs = "^14.2.0"
 
 
 [build-system]
