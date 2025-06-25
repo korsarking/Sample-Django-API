@@ -7,8 +7,12 @@ RUN pip install --upgrade pip && \
 ENV GUNICORN_APP=main.wsgi:application
 ENV GUNICORN_PYTHONPATH=src
 
-ADD ./pyproject.toml ./poetry.lock ./
+WORKDIR /usr/src/app
+
+COPY ./pyproject.toml ./poetry.lock ./
 
 RUN poetry install --no-root
 
-COPY ./src ./src
+COPY ./src ./
+
+

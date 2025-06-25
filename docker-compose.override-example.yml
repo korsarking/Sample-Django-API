@@ -5,25 +5,24 @@ services:
   postgres:
     image: wodby/postgres:17-1.36.0
     stop_grace_period: 30s
+    ports:
+      - "${DB_PORT:-5432}:5432"
     environment:
-      POSTGRES_PASSWORD: $DB_PASSWORD
-      POSTGRES_DB: $DB_NAME
-      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
   django:
-    depends_on:
-      - postgres
+    env_file: .env
     environment:
-      DYNACONF_DATABASES__default__ENGINE: django.db.backends.postgresql
-      DYNACONF_DATABASES__default__NAME: $DB_NAME
-      DYNACONF_DATABASES__default__USER: $DB_USER
-      DYNACONF_DATABASES__default__PASSWORD: $DB_PASSWORD
-      DYNACONF_DATABASES__default__HOST: postgres
-      DYNACONF_DATABASES__default__PORT: 5432
-      DYNACONF_DEBUG: True
-      DYNACONF_SECRET_KEY: django
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: ${DB_HOST}
+      DEBUG: ${DEBUG}
+      SECRET_KEY: ${SECRET_KEY}
     volumes:
       - ./src:/usr/src/app/src:ro
     develop:
@@ -36,3 +35,5 @@ services:
   nginx:
     ports:
       - "8000:80"
+    volumes:
+      - ./src/:/usr/src/app/src:cached

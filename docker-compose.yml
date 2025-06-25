@@ -1,7 +1,11 @@
 services:
+
   django:
     build:
       context: ./
+    command: python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - postgres
 
   nginx:
     image: wodby/nginx:1.28-5.43.0
