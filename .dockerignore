@@ -12,3 +12,13 @@ src/**/db.sqlite3-journal
 # Celery stuff
 src/**/celerybeat-schedule
 src/**/celerybeat.pid
+
+# directories to ignore
+/venv/
+
+# extensions to ignore
+*.log
+*.pot
+*.pyc
+.coverage
+.gitignore
