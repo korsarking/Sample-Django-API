@@ -52,28 +52,6 @@ files = [
 django = ">=4.2"
 
 [[package]]
-name = "dynaconf"
-version = "3.2.11"
-description = "The dynamic configurator for your Python Project"
-optional = false
-python-versions = ">=3.8"
-groups = ["main"]
-files = [
-    {file = "dynaconf-3.2.11-py2.py3-none-any.whl", hash = "sha256:660de90879d4da236f79195692a7d197957224d7acf922bcc6899187dc7b4a27"},
-    {file = "dynaconf-3.2.11.tar.gz", hash = "sha256:4cfc6a730c533bf1a1d0bf266ae202133a22236bb3227d23eff4b8542d4034a5"},
-]
-
-[package.extras]
-all = ["configobj", "hvac", "redis", "ruamel.yaml"]
-configobj = ["configobj"]
-ini = ["configobj"]
-redis = ["redis"]
-test = ["configobj", "django", "flask (>=0.12)", "hvac (>=1.1.0)", "pytest", "pytest-cov", "pytest-mock", "pytest-xdist", "python-dotenv", "radon", "redis", "toml"]
-toml = ["toml"]
-vault = ["hvac"]
-yaml = ["ruamel.yaml"]
-
-[[package]]
 name = "environs"
 version = "14.2.0"
 description = "simplified environment variable parsing"
@@ -306,4 +284,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "6cf297f99403e1ef80487938f7563330ce9443d6813f229b3fc2a3d27ce6176a"
+content-hash = "d66d09ba0f57a2fb6c7f1f2e13bb40bde5b33a2f99d238b5d197fe395e4cf43a"
