@@ -70,3 +70,72 @@ Follow these steps to set up the project for development:
 
 - You only need to copy the environment and override files, build the containers, and set up the database once. These steps prepare your local environment for development.
 - You need to run the containers each time you want to test or develop the project.
+
+
+
+ ______________________________________________________
+ ______________________________________________________
+## Project Steps
+
+
+
+🚀 Survey Project — Django + React Setup Guide
+📦 Requirements:
+    1. Python 3.12+
+    2. Node.js 18+ / npm
+    3. Docker + Docker Compose
+    4. Git (optional but helpful)
+
+
+⚙️ Backend (Django)
+🔹 1. Create .env (or use existing) 
+   Make sure the .env contains at least:
+
+env:
+DJANGO_SECRET_KEY=your-secret-key
+DEBUG=True
+POSTGRES_DB=survey
+POSTGRES_USER=survey
+POSTGRES_PASSWORD=survey
+
+🔹 2. Build and start backend
+docker compose up -d --build
+
+🔹 3. Run migrations + seed data
+
+docker compose exec django python manage.py migrate
+docker compose exec django python manage.py createsuperuser
+
+Or use the built-in migration that auto-creates questions (with admin user):
+
+docker compose exec django python manage.py migrate
+
+
+🌐 Frontend (React)
+
+🔹 1. Go to survey-frontend
+
+   cd survey-frontend
+
+🔹 2. Install dependencies
+
+   npm install
+
+🔹 3. Start development server
+
+   npm start
+
+Visit: http://localhost:3000
+
+
+🔑 Auth & API
+
+    Obtain JWT token: POST /api/token/ With { "email": "admin@example.com", "password": "admin123" }
+
+    Use token for authorized requests:
+
+    Authorization: Bearer <access_token>
+
+
+
+
