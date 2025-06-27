@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 from environs import Env
+from datetime import timedelta
 
 env = Env(eager=False)
 env.read_env()
@@ -46,12 +47,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     # Third party apps
-
+    'drf_spectacular',
+    # 'unfold',
+    'corsheaders',
     # Local apps
     'src.survey',
+    'src.accounts',
 ]
 
 MIDDLEWARE = [
+    ["corsheaders.middleware.CorsMiddleware", *MIDDLEWARE],
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,6 +64,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
 ]
 
 ROOT_URLCONF = 'src.main.urls'
@@ -78,8 +87,14 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'main.wsgi.application'
+WSGI_APPLICATION = 'src.main.wsgi.application'
 
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Survey API",
+    "DESCRIPTION": "API for taking surveys and tracking answers.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -87,10 +102,10 @@ WSGI_APPLICATION = 'main.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('DB_NAME'),
-        'USER': env('DB_USER'),
-        'PASSWORD': env('DB_PASSWORD'),
-        'HOST': env('DB_HOST'),
+        'NAME': env.str('DB_NAME'),
+        'USER': env.str('DB_USER'),
+        'PASSWORD': env.str('DB_PASSWORD'),
+        'HOST': env.str('DB_HOST'),
         'PORT': env.str("DB_PORT"),
     }
 }
@@ -98,6 +113,8 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
+
+AUTH_USER_MODEL = "accounts.user"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -139,9 +156,49 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Django REST Framework settings
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "rest_framework.authentication.SessionAuthentication",
-    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.AllowAny",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    'DEFAULT_FILTER_BACKENDS': ["django_filters.rest_framework.DjangoFilterBackend"],
+    "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
+    "DEFAULT_RENDERER_CLASSES": (
+        "rest_framework.renderers.JSONRenderer",
+        "rest_framework.renderers.BrowsableAPIRenderer",
+        "rest_framework.renderers.TemplateHTMLRenderer",
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 12,
+    "DATETIME_FORMAT": "%Y-%m-%dT%H:%M:%SZ",
 }
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Bearer": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header",
+        }
+    }
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=500),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+}
+
+STANDARDIZED_ERRORS = {
+    "ENABLE_IN_DEBUG_FOR_DEBUG_TRUE": True,
+    "EXCEPTION_FORMATTER_CLASS": "drf_standardized_errors.formatter.DefaultExceptionFormatter",
+    "USE_PLAIN_TEXT_ERRORS": False,
+}
+
+# UNFOLD = {
+#     "SITE_TITLE": "My Admin",
+#     "DARK_MODE": True,
+# }
 
 env.seal()

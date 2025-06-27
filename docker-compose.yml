@@ -1,13 +1,23 @@
 services:
 
   django:
+    ports:
+    - "8000:8000"
     environment:
       DJANGO_SETTINGS_MODULE: src.main.settings
     build:
       context: ./
-    command: python manage.py runserver 0.0.0.0:8000
     depends_on:
       - postgres
+    command: >
+      sh -c "
+        until nc -z postgres 5432;
+        do echo 'Waiting for Postgres...'; sleep 1;
+        done;
+        echo 'Postgres is up!';
+        python manage.py migrate;
+        python manage.py runserver 0.0.0.0:8000
+      "
 
   nginx:
     image: wodby/nginx:1.28-5.43.0
