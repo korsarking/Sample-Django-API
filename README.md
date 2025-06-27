@@ -139,3 +139,42 @@ Visit: http://localhost:3000
 
 
 
+For questions run command
+
+python manage.py makemigrations --empty survey -n initial_questions
+
+create migration file and insert next qustions
+
+```
+from django.db import migrations
+from django.contrib.auth import get_user_model
+
+def create_initial_questions(apps, schema_editor):
+    Question = apps.get_model("survey", "Question")
+    Answer = apps.get_model("survey", "Answer")
+
+    q1 = Question.objects.create(text="Столица Франции?", is_active=True)
+    Answer.objects.create(question=q1, text="Париж", is_correct=True, user=admin)
+    Answer.objects.create(question=q1, text="Берлин", is_correct=False, user=admin)
+
+    q2 = Question.objects.create(text="2 + 2 = ?", is_active=True)
+    Answer.objects.create(question=q2, text="4", is_correct=True, user=admin)
+    Answer.objects.create(question=q2, text="5", is_correct=False, user=admin)
+
+    q3 = Question.objects.create(text="Цвет неба в ясный день?", is_active=True)
+    Answer.objects.create(question=q3, text="Синий", is_correct=True, user=admin)
+    Answer.objects.create(question=q3, text="Оранжевый", is_correct=False, user=admin)
+
+
+def reverse_func(apps, schema_editor):
+    pass
+
+class Migration(migrations.Migration):
+    dependencies = [
+        ("survey", "0001_initial"),
+    ]
+
+    operations = [
+        migrations.RunPython(create_initial_questions, reverse_func),
+    ]
+```
